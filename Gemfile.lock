@@ -1,15 +1,40 @@
 PATH
   remote: .
   specs:
-    gabba (0.0.1)
+    gabba (0.0.3)
+      em-http-request (>= 1.0.0.beta.3)
+      eventmachine (>= 1.0.0.beta.1)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.2.2)
+    addressable (2.2.6)
+    archive-tar-minitar (0.5.2)
+    columnize (0.3.2)
     crack (0.1.8)
-    minitest (2.0.0)
-    webmock (1.6.1)
+    em-http-request (1.0.0.beta.3)
+      addressable (>= 2.2.3)
+      em-socksify
+      eventmachine
+      http_parser.rb (>= 0.5.1)
+    em-socksify (0.1.0)
+      eventmachine
+    eventmachine (1.0.0.beta.3)
+    http_parser.rb (0.5.1)
+    linecache19 (0.5.12)
+      ruby_core_source (>= 0.1.4)
+    minitest (2.1.0)
+    ruby-debug-base19 (0.11.25)
+      columnize (>= 0.3.1)
+      linecache19 (>= 0.5.11)
+      ruby_core_source (>= 0.1.4)
+    ruby-debug19 (0.11.6)
+      columnize (>= 0.3.1)
+      linecache19 (>= 0.5.11)
+      ruby-debug-base19 (>= 0.11.19)
+    ruby_core_source (0.1.5)
+      archive-tar-minitar (>= 0.5.2)
+    webmock (1.6.2)
       addressable (>= 2.2.2)
       crack (>= 0.1.7)
 
@@ -19,4 +44,5 @@ PLATFORMS
 DEPENDENCIES
   gabba!
   minitest
+  ruby-debug19
   webmock

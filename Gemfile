@@ -5,3 +5,4 @@ gemspec
 
 gem 'minitest'
 gem 'webmock'
+gem 'ruby-debug19'

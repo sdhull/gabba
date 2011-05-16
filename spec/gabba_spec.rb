@@ -9,7 +9,7 @@ describe Gabba::Gabba do
       @gabba.utmcc = ''
       stub_analytics @gabba.page_view_params("title", "/page/path", "6783939397")
     end
-    
+
     it "must require GA account" do
       lambda {Gabba::Gabba.new(nil, nil).page_view("thing", "thing")}.must_raise(Gabba::NoGoogleAnalyticsAccountError)
     end
@@ -17,13 +17,17 @@ describe Gabba::Gabba do
     it "must require GA domain" do
       lambda {Gabba::Gabba.new("abs", nil).page_view("thing", "thing")}.must_raise(Gabba::NoGoogleAnalyticsDomainError)
     end
-    
+
     it "must be able to create page_view_params" do
       @gabba.page_view_params("hiya", "/tracker/page")[:utmdt].must_equal("hiya")
     end
 
     it "must do page view request to google" do
-      @gabba.page_view("title", "/page/path", "6783939397").code.must_equal("200")
+      EM.run do
+        # if it raises an exception, it fails
+        @gabba.page_view("title", "/page/path", "6783939397")
+        EM.stop
+      end
     end
   end
 
@@ -34,7 +38,7 @@ describe Gabba::Gabba do
       @gabba.utmcc = ''
       stub_analytics @gabba.event_params("cat1", "act1", "lab1", "val1", "6783939397")
     end
-    
+
     it "must require GA account" do
       lambda {Gabba::Gabba.new(nil, nil).event("cat1", "act1", "lab1", "val1")}.must_raise(Gabba::NoGoogleAnalyticsAccountError)
     end
@@ -42,7 +46,7 @@ describe Gabba::Gabba do
     it "must require GA domain" do
       lambda {Gabba::Gabba.new("abs", nil).event("cat1", "act1", "lab1", "val1")}.must_raise(Gabba::NoGoogleAnalyticsDomainError)
     end
-    
+
     it "must be able to create event data" do
       @gabba.event_data("cat1", "act1", "lab1", "val1").must_equal("5(cat1*act1*lab1)(val1)")
     end
@@ -50,11 +54,14 @@ describe Gabba::Gabba do
     it "must be able to create event data with only category and action" do
       @gabba.event_data("cat1", "act1").must_equal("5(cat1*act1)")
     end
-    
-    it "must do event request to google" do
-      @gabba.event("cat1", "act1", "lab1", "val1", "6783939397").code.must_equal("200")
-    end
 
+    it "must do event request to google" do
+      EM.run do
+        # if it raises an exception, it fails
+        @gabba.event("cat1", "act1", "lab1", "val1", "6783939397")
+        EM.stop
+      end
+    end
   end
 
   def stub_analytics(expected_params)
